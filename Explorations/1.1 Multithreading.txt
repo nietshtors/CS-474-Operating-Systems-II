@@ -1,0 +1,8 @@
+What are the main differences between threads and processes?
+	Threads share data.
+What does a thread do when it tries to join but the other thread hasn't completed yet?
+	It waits for the other thread to finish.
+What's the difference between concurrency and parallelism?
+	Concurrency is a program's ability to always produce the correct result. Parallelism is running multiple threads/processes at the same time.
+Global variables are shared among threads, but local variables are not. Describe why this is the case.
+	Each thread has its own stack.

@@ -1,0 +1,8 @@
+What's the function to create a new thread?
+	pthread_create()
+What's the function to wait for a thread to finish?
+	pthread_join()
+How do you pass an argument to the new thread?
+	The fourth argument in pthread_create()
+How would you pass multiple arguments to the new thread?
+	Pass an array of the arguments.
