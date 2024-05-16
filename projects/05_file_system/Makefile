@@ -1,5 +1,5 @@
 CC=gcc
-CCOPTS=-Wall -Wextra
+CCOPTS=-Wall -Wextra -Werror
 LIBS=-DCTEST_ENABLE
 
 testfs: libvvsfs.a
