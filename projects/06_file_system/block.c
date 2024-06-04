@@ -21,11 +21,11 @@ void bwrite(int block_num, unsigned char *block) {
 /* Allocate a previously-free data block from the block map */
 int alloc(void) {
     unsigned char block[BLOCK_SIZE];
-    bread(DATA_BLOCK, block);
+    bread(DATA_MAP, block);
     int free_bit = find_free(block);
     if (free_bit != -1) {
         set_free(block, free_bit, 1);
-        bwrite(DATA_BLOCK, block);
+        bwrite(DATA_MAP, block);
     }
     return free_bit;
 }
