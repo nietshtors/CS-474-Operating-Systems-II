@@ -14,10 +14,29 @@ void test_image(void) {
     remove("dummy.jpg");
 }
 
+void test_block() {
+    int block_num = 1;
+    unsigned char block[BLOCK_SIZE] = {0};
+    for (int i = 0; i < BLOCK_SIZE; i++)
+        if (i % 3 == 0)
+            block[i] = 1;
+    bwrite(block_num, block);
+    unsigned char block2[BLOCK_SIZE];
+    bread(block_num, block2);
+    
+    CTEST_VERBOSE(0);
+    for (int i = 0; i < BLOCK_SIZE; i++)
+        CTEST_ASSERT(block[i] == block2[i], "block: Testing read/write");
+    CTEST_VERBOSE(1);
+}
+
 int main(void) {
     CTEST_VERBOSE(1);
 
     test_image();
+    image_open("fs.txt", 1);
+    test_block();
+    image_close();
 
     CTEST_RESULTS();
 
