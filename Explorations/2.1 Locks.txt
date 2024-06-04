@@ -1,0 +1,9 @@
+Why should locks be held for as short a time as possible?
+    Other threads will wait for it to unlock and can backlog.
+With a reader/writer lock, why can the single writing thread be the only thread in the critical section?
+    So that threads don't overwrite each other. Reading doesn't change anything so everyone can read it.
+What's a recursive mutex useful for?
+    For double locking a section.
+Looking at the book, explain in human terms the operation of Test-and-Set.
+    
+Looking at the book, explain in human terms how Test-and-Set can be used to create a spin lock.

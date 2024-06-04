@@ -1,0 +1,7 @@
+What are the tradeoffs with the Approximate Counter in the book when updating the global counter more or less frequently?
+
+Why does having locks on both the head and tail of the concurrent queue have a performance advantage over having one big lock for the whole thing?
+
+Why doesn't the concurrent hash table in the reading need any locks in any of the Hash_ functions?
+
+In the concurrent queue in the book, speculate on why the dummy node is required.
