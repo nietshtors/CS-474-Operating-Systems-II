@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "dir.h"
 
 void ls(void)
