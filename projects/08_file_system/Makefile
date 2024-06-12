@@ -5,7 +5,7 @@ LIBS=-DCTEST_ENABLE
 testfs: libvvsfs.a
 	$(CC) -o $@ $^
 
-libvvsfs.a: testfs.o image.o block.o free.o inode.o pack.o dir.o
+libvvsfs.a: testfs.o image.o block.o free.o inode.o pack.o dir.o ls.o
 	ar rcs $@ $^
 
 testfs.o: testfs.c image.h block.h ctest.h
