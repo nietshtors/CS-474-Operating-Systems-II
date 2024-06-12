@@ -33,7 +33,16 @@ VS Code:
       * `set_free()`: Sets a specific bit value in a block
       * `write_inode()`: Writes an inode to disk
     * `alloc()`: Allocates a free data block
+      * `find_free()`: Returns the earliest free bit
+        * `find_low_clear_bit()`: Helper function to find the lowest clear bit in a byte
     * `bwrite()`: Writes a block from the given buffer
     * `iput()`: Writes an inode to disk
-  * `ls()`: 
+  * `ls()`: Lists directory contents
+    * `directory_open()`: Opens a directory
+      * `iget()`: Returns an incore inode
+        * `incore_find()`: Finds a specific inode
+        * `incore_find_free()`: Finds the first free inode in the incore array
+        * `read_inode()`: Reads an inode into a buffer
+    * `directory_get()`: Iterates through a directory returning individual entries
+    * `directory_close()`: Closes a directory
   * `image_close()`: Closes the last opened file
