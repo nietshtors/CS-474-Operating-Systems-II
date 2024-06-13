@@ -121,7 +121,6 @@ int directory_make(char *path)
 
     int block_index = in_parent->size / BLOCK_SIZE;
     data_block_num = in_parent->block_ptr[block_index];
-    printf("parent data block: %d\n", data_block_num);
 
     bread(data_block_num, block);
     write_u16(block + in_parent->size, in->inode_num);
