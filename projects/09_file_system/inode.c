@@ -1,4 +1,5 @@
 #include <stddef.h>
+#include <stdio.h>
 #include "inode.h"
 #include "block.h"
 #include "free.h"
@@ -6,7 +7,8 @@
 
 static struct inode incore[MAX_SYS_OPEN_FILES] = {0};
 
-/* Allocate a previously-free inode in the inode map */
+/* Allocate a previously-free inode in the inode map.
+ * Returns NULL on failure. */
 struct inode *ialloc(void)
 {
     unsigned char block[BLOCK_SIZE];
@@ -86,7 +88,7 @@ void read_inode(struct inode *in, int inode_num)
     in->flags = read_u8(block + block_offset_bytes + 7);
     in->link_count = read_u8(block + block_offset_bytes + 8);
     for (int i = 0; i < INODE_PTR_COUNT; i++)
-        in->block_ptr[i] = read_u16(block + block_offset_bytes + 9 + i);
+        in->block_ptr[i] = read_u16(block + block_offset_bytes + 9 + i * 2);
     in->inode_num = inode_num;
 }
 
@@ -109,7 +111,7 @@ void write_inode(struct inode *in)
     write_u8(block + block_offset_bytes + 7, in->flags);
     write_u8(block + block_offset_bytes + 8, in->link_count);
     for (int i = 0; i < INODE_PTR_COUNT; i++)
-        write_u16(block + block_offset_bytes + 9 + i, in->block_ptr[i]);
+        write_u16(block + block_offset_bytes + 9 + i * 2, in->block_ptr[i]);
     bwrite(block_num, block);
 }
 
@@ -137,10 +139,23 @@ struct inode *iget(int inode_num)
 /* Decrement the reference count on the inode. If it
  * falls to 0, write the inode to disk. */
 void iput(struct inode *in)
-{
+{   
     if (in->ref_count == 0)
         return;
     in->ref_count--;
     if (in->ref_count == 0)
         write_inode(in);
+}
+
+/* Debugging function */
+void pinode(struct inode *in)
+{
+    printf("Inode Num: %d\n", in->inode_num);
+    printf("  Size: %d\n", in->size);
+    printf("  Owner: %d\n", in->owner_id);
+    printf("  Perms: %d\n", in->permissions);
+    printf("  Flags: %d\n", in->flags);
+    printf("  Link: %d\n", in->link_count);
+    for (int i = 0; i < INODE_PTR_COUNT; i++)
+        printf("  Blk Ptr %d: %d\n", i, in->block_ptr[i]);
 }

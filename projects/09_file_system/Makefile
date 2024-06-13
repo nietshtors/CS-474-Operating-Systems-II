@@ -1,11 +1,11 @@
 CC=gcc
-CCOPTS=-Wall -Wextra
+CCOPTS=-Wall -Wextra -Werror
 LIBS=-DCTEST_ENABLE
 
 testfs: libvvsfs.a
 	$(CC) -o $@ $^
 
-libvvsfs.a: testfs.o image.o block.o free.o inode.o pack.o dir.o
+libvvsfs.a: testfs.o image.o block.o free.o inode.o dir.o helpers.o
 	ar rcs $@ $^
 
 testfs.o: testfs.c image.h block.h ctest.h
@@ -23,14 +23,12 @@ free.o: free.c free.h
 inode.o: inode.c inode.h
 	$(CC) $(CCOPTS) -c -o $@ $< $(LIBS)
 
-pack.o: pack.c pack.h
-	$(CC) $(CCOPTS) -c -o $@ $< $(LIBS)
-
 dir.o: dir.c dir.h
 	$(CC) $(CCOPTS) -c -o $@ $< $(LIBS)
 
-ls.o: ls.c
+helpers.o: pack.c pack.h ls.c dirbasename.c
 	$(CC) $(CCOPTS) -c -o $@ $< $(LIBS)
+
 
 .PHONY: test clean pristine
 

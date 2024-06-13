@@ -89,6 +89,16 @@ void test_dir(void)
     CTEST_ASSERT(ent.inode_num == 0 && strcmp(ent.name, ".") == 0, "dir: mkfs test 1");
     directory_get(dir, &ent);
     CTEST_ASSERT(ent.inode_num == 0 && strcmp(ent.name, "..") == 0, "dir: mkfs test 2");
+    directory_close(dir);
+    directory_close(dir2);
+
+    CTEST_ASSERT(directory_make("/foo/bar/") == -1, "dir: nonsupported path returns failure");
+    CTEST_ASSERT(directory_make("/foo") == 0, "dir: supported path returns success");
+    dir = directory_open(0);
+    directory_get(dir, &ent);
+    directory_get(dir, &ent);
+    directory_get(dir, &ent);
+    CTEST_ASSERT(!strcmp(ent.name, "foo"), "dir: foo is correctly stored in the root directory");
 
     image_close();
 }
@@ -118,10 +128,20 @@ int main(void)
 #else
 
 int main(void)
-{
+{   
+    remove("fs.txt");
     image_open("fs.txt", 1);
     mkfs();
-    ls();
+    // struct inode *in = iget(0);
+    // pinode(in);
+    // in = iget(1);
+    // pinode(in);
+    // printf("in->block_ptr[0] = %d\n", in->block_ptr[0]);
+    directory_make("/foo");
+    ls(0);
+    // printf("in->block_ptr[0] = %d\n", in->block_ptr[0]);
+    directory_make("/bar");
+    ls(0);
     image_close();
     return 1;
 }

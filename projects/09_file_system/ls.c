@@ -1,11 +1,12 @@
+#include <stdio.h>
 #include "dir.h"
 
-void ls(void)
+void ls(int inode_num)
 {
     struct directory *dir;
     struct directory_entry ent;
 
-    dir = directory_open(0);
+    dir = directory_open(inode_num);
 
     while (directory_get(dir, &ent) != -1)
         printf("%d %s\n", ent.inode_num, ent.name);
